@@ -1,3 +1,19 @@
+.uzytkownik
+{
+    height: 100px;
+    overflow: auto;
+}
+tr:nth-child(even){
+    background-color:white;
+}
+tr:nth-child(odd){
+    background-color: green;
+}
+th{
+
+
+}
+
 .row{
     position: relative;
     border: solid;
@@ -58,8 +74,7 @@ h2{
     color: white;
     display: none;
     padding: 100px 20px;
-    height: 10000000 px;
-    width: auto;
+    height: 100%s;
 }
 
 
@@ -78,7 +93,7 @@ h2{
 
 
 
-#Home {background-color: #555;}
-#News {background-color: #555;}
-#Contact {background-color: #555;}
-#About {background-color: #555;}
+#Home {background-color: #333;}
+#News {background-color: #333;}
+#Contact {background-color: #333;}
+#About {background-color: #333;}

@@ -46,10 +46,10 @@ if (!empty($_POST['btnLogin'])) {
     <meta charset="UTF-8">
     <title>Home</title>
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" type="text/css" href="../resources/style.css">
 
 </head>
 <body>
+<?php include_once "../layout/home.php"?>
 
 <center>
    <h4>Login</h4>
@@ -68,4 +68,7 @@ if (!empty($_POST['btnLogin'])) {
         </div>
     </form>
 </center>
+
+<?php include_once "../layout/footer.php"?>
+
 <body/>

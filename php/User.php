@@ -6,11 +6,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
-    <!-- Latest compiled and minified CSS -->
-    <!--<link rel="stylesheet" href="css/bootstrap.min.css">-->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="../resources/styleindex.css">
+
+    <link rel="stylesheet" type="text/css" href="../resources/profile.css">
+
+
+
+
 </head>
 <body>
 
@@ -18,7 +19,21 @@
     <div class="row">
         <h2>
             RENTAL CAR
+
         </h2>
+
+
+        <div class="log">
+            <form action="logout.php" method="post">
+                <div class="form-group">
+                    <input type="submit" name="btnRegister1" class="btn btn-primary" value="logout"/>
+                </div>
+
+
+
+            </form>
+        </div>
+
 
     </div>
     <div class = "info">
@@ -28,18 +43,18 @@
         <button class="tablink" onclick="openPage('About', this, '#755')">About</button>
 
         <div id="Home" class="tabcontent">
-            <h3>USERS</h3>
+            <h3>Samochody</h3>
             <p>
             <div class="uzytkownik">
 
 
-                <table class="table table-striped table-bordered">
-                    <thead>
+                <table class="samochod" >
+
                     <tr>
-                        <th>Name</th>
-                        <th>Email Address</th>
-                        <th>Username</th>
-                        <th>Action</th>
+                        <th>Prducent</th>
+                        <th>Model</th>
+                        <th>Rok</th>
+                        <th>Akcja</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -54,8 +69,7 @@
                         echo '<td>'. $row['producent'] . '</td>';
                         echo '<td>'. $row['model'] . '</td>';
                         echo '<td>'. $row['rok'] . '</td>';
-                        echo '<td><a class="btn" href="book.php?id='.$row['id_vehicle'].'">Book</a></td>';
-                        echo '<td><a class="btn btn-danger" href="delete.php?id='.$row['id_vehicle'].'">Delete</a></td>';
+                        echo '<td><a class="button" href="book.php?id='.$row['id_vehicle'].'">Book</a></td>';
                         echo '</td>';
                         echo '</tr>';
 
@@ -70,33 +84,51 @@
         </div>
 
         <div id="News" class="tabcontent">
-            <h3>News</h3>
+            <h3>Rezerwacje</h3>
             <p>
             <div class="uzytkownik">
-                </table>
+
+
+
+                    <?php
+
+
+                    // check user login
+                    if(empty($_SESSION['user_id']))
+                    {
+                        header("Location: index.php");
+                    }
+
+                    $app = new DemoLib();
+                    $book = $app->ShowUserBook($_SESSION['user_id']);
+                   //  echo (json_encode($book));
+                     $help= json_encode($book);
+                     foreach ($book as $key => $value)
+                     {
+                         echo $value->status .  "<br>";
+                     }
+
+
+                    ?>
+
+
+
 
             </div>
             </p>
+
+
         </div>
 
         <div id="Contact" class="tabcontent">
             <h3>Contact</h3>
-            <p>Get in touch, or swing by for a cup of coffee.</p>
+
         </div>
 
         <div id="About" class="tabcontent">
             <h3>About</h3>
             <p>
-            <div class="container">
-                <div class="well">
-                    <h2>
-                        Profile
-                    </h2>
-                    <h3>Hello <?php echo $user->name ?>,</h3>
 
-                    <a href="logout.php" class="btn btn-primary">Logout</a>
-                </div>
-            </div>
             </p>
         </div>
 
@@ -119,7 +151,7 @@
             document.getElementById("defaultOpen").click();
         </script>
     </div>
-
+</div>
 
 
 

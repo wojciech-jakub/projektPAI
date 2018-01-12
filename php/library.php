@@ -16,23 +16,95 @@ require "database.php";
 class DemoLib
 {
 
+
+
+
     /*
      * Register New User
      *
      * @param $name, $email, $username, $password
      * @return ID
      * */
+
     public function __construct()
     {
+    }
+
+
+    public function ShowUserBook($user_id)
+    {
+        try {
+            $db = new  DB;
+            $query = $db->getDbh()->prepare("select booking.status from booking
+            inner join reservation on booking.id_reservation=reservation.id_reservation
+            inner join users on users.user_id=reservation.user_id
+            
+            where users.user_id=:user_id;");
+            $query->bindParam("user_id", $user_id, PDO::PARAM_STR);
+            $query->execute();
+
+
+
+
+            if ($query->rowCount() > 0) {
+                $result = $query->fetchAll(PDO::FETCH_OBJ);
+                return $result;
+            } else {
+                return false;
+            }
+        } catch (PDOException $e) {
+            exit($e->getMessage());
+        }
 
     }
-    public function Book($id_vehicle)
+
+    public function AcceptBooking($id_booking)
     {
         try {
             $db = new DB;
-            $query = $db->getDbh()->prepare("INSERT INTO reservation(id_vehicle) VALUES (:id_vehicle)");
-            $query->bindParam("id_vehicle", $id_vehicle, PDO::PARAM_STR);
+            $query = $db->getDbh()->prepare("UPDATE booking
+               SET status='accepted'
+                where id_book=:id_booking");
+
+            $query->bindParam("id_booking", $id_booking, PDO::PARAM_STR);
             $query->execute();
+            return $db->getDbh()->lastInsertId();
+        } catch (PDOException $e) {
+            exit($e->getMessage());
+        }
+    }
+
+    public function InsertBook($id_reservation)
+    {
+        $status = "waiting to accept";
+        try {
+            $db = new DB;
+            $query = $db->getDbh()->prepare("INSERT INTO booking(id_reservation,status) 
+            VALUES (:id_reservation,:status)");
+
+            $query->bindParam("id_reservation", $id_reservation, PDO::PARAM_STR);
+            $query->bindParam("status",$status,PDO::PARAM_STR);
+            $query->execute();
+            return $db->getDbh()->lastInsertId();
+        } catch (PDOException $e) {
+            exit($e->getMessage());
+        }
+
+    }
+    public function Book($id_vehicle,$user_id,$start_date,$end_date)
+    {
+        try {
+            $db = new DB;
+            $query = $db->getDbh()->prepare("INSERT INTO reservation(id_vehicle,user_id,start_date,end_date) 
+            VALUES (:id_vehicle,:user_id,:start_date,:end_date)");
+
+            $query->bindParam("id_vehicle", $id_vehicle, PDO::PARAM_STR);
+            $query->bindParam('user_id',$user_id,PDO::PARAM_STR);
+            $query->bindParam('start_date',$start_date,PDO::PARAM_STR);
+            $query->bindParam('end_date',$end_date,PDO::PARAM_STR);
+            $query->execute();
+            $this->InsertBook($db->getDbh()->lastInsertId());
+
             return $db->getDbh()->lastInsertId();
         } catch (PDOException $e) {
             exit($e->getMessage());
@@ -166,23 +238,5 @@ class DemoLib
         }
         return null;
     }
-//    public function Users()
-//    {
-//       // try {
-//            $db = new DB;
-//            $query = $db->getDbh()->prepare("SELECT * FROM users");
-//            $query->bindParam("user_id", $user_id, PDO::PARAM_STR);
-//            $query->execute();
-//        $result = $query->setFetchMode(PDO::FETCH_ASSOC);
-//        foreach(new TableRows(new RecursiveArrayIterator($query->fetchAll())) as $k=>$v) {
-//            echo $v;
-//        }
-//        ///
-//            if ($query->rowCount() > 0) {
-//                return $query->fetch(PDO::FETCH_OBJ);
-//            }
-//        } catch (PDOException $e) {
-//            exit($e->getMessage());
-       // }
- //  }
+
 }

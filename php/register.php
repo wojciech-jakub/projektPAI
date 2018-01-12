@@ -65,9 +65,9 @@ if (!empty($_POST['btnRegister'])) {
     <meta charset="UTF-8">
     <title>Home</title>
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
 <body>
+<?php include_once "../layout/home.php"?>
 
 <div class="container">
 
@@ -120,6 +120,9 @@ if (!empty($_POST['btnRegister'])) {
         </div>
     </div>
 </div>
+
+<?php include_once "../layout/footer.php"?>
+
 </body>
 
 

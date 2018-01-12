@@ -7,8 +7,8 @@
  * */
 
 // Start Session
+include_once "../layout/index.php";
 session_start();
-include "layout.php";
 // Application library ( with DemoLib class )
 require __DIR__ . '/library.php';
 $app = new DemoLib();
@@ -38,7 +38,6 @@ if (!empty($_SESSION['user_id']))
     header('Location: profile.php');
     exit();
 }
-
 ?>
 
 <!doctype html>

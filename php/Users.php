@@ -9,8 +9,9 @@
     <!-- Latest compiled and minified CSS -->
     <!--<link rel="stylesheet" href="css/bootstrap.min.css">-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="../resources/styleindex.css">
+
+    <link rel="stylesheet" type="text/css" href="../resources/users.css">
+
 </head>
 <body>
 
@@ -19,6 +20,17 @@
         <h2>
             RENTAL CAR
         </h2>
+
+        <div class="log">
+            <form action="logout.php" method="post">
+                <div class="form-group">
+                    <input type="submit" name="btnRegister1" class="btn btn-primary" value="logout"/>
+                </div>
+
+
+
+            </form>
+        </div>
 
     </div>
     <div class = "info">
@@ -78,10 +90,11 @@
                 <table class="table table-striped table-bordered">
                     <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Email Address</th>
-                        <th>Username</th>
-                        <th>Action</th>
+                        <th>id_resrevation</th>
+                        <th>name</th>
+                        <th>start date</th>
+                        <th>end date</th>
+                        <th>Status</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -90,12 +103,23 @@
                     $db = new DB;
                     $pdo = $db->getDbh();
                     // $pdo = Database::connect();
-                    $sql = 'SELECT * FROM vehicle ORDER BY id_vehicle DESC';
+                    $sql = 'select booking.id_book , reservation.start_date, reservation.end_date, users.name, booking.status
+                        from reservation
+                        inner join users on reservation.user_id=users.user_id
+                        inner join booking on reservation.id_reservation = booking.id_reservation ';
+
                     foreach ($pdo->query($sql) as $row) {
                         echo '<tr>';
-                        echo '<td>'. $row['producent'] . '</td>';
-                        echo '<td>'. $row['model'] . '</td>';
-                        echo '<td>'. $row['rok'] . '</td>';
+                        echo '<td>'. $row['id_book'] . '</td>';
+                        echo '<td>'. $row['name'] . '</td>';
+                        echo '<td>'. $row['start_date'] . '</td>';
+                        echo '<td>'. $row['start_date'] . '</td>';
+                        echo '<td>'. $row['status'] . '</td>';
+
+                        echo '<td><a class="btn btn-danger" href="accept.php?id='.$row['id_book'].'">accept</a></td>';
+
+
+
 
                         echo '</td>';
                         echo '</tr>';
@@ -118,17 +142,14 @@
         <div id="About" class="tabcontent">
             <h3>About</h3>
             <p>
-            <div class="container">
-                <div class="well">
+
                     <h2>
                         Profile
                     </h2>
                     <h3>Hello <?php echo $user->name ?>,</h3>
 
                     <a href="logout.php" class="btn btn-primary">Logout</a>
-                </div>
-            </div>
-            </p>
+             </p>
         </div>
 
         <script>
